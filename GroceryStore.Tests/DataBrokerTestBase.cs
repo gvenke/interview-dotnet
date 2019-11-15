@@ -22,8 +22,8 @@ namespace GroceryStore.Tests
             PopulateCustomerData();
             var customer = _dataBroker.GetCustomer(1);
 
-            Assert.IsNotNull(customer);
-            Assert.AreEqual(1, customer.Id);
+            Assert.IsNotNull(customer, "customer should not be null");
+            Assert.AreEqual(1, customer.Id, "wrong customer retrieved");
         }
 
         [TestMethod]
@@ -43,8 +43,8 @@ namespace GroceryStore.Tests
             PopulateCustomerData();
             var customers = _dataBroker.GetCustomers();
 
-            Assert.IsNotNull(customers);
-            Assert.AreEqual(_customers.Length, customers.Count());
+            Assert.IsNotNull(customers, "customers should not be null");
+            Assert.AreEqual(_customers.Length, customers.Count(), "wrong number of customers retrieved");
         }
 
         [TestMethod]
@@ -54,8 +54,8 @@ namespace GroceryStore.Tests
             PopulateOrderData();
             var order = _dataBroker.GetOrder(1);
 
-            Assert.IsNotNull(order);
-            Assert.AreEqual(1, order.Id);
+            Assert.IsNotNull(order, "order should not be null");
+            Assert.AreEqual(1, order.Id, "wrong order retrieved");
         }
 
         [TestMethod]
@@ -76,8 +76,8 @@ namespace GroceryStore.Tests
             PopulateOrderData();
             var orders = _dataBroker.GetOrders();
 
-            Assert.IsNotNull(orders);
-            Assert.AreEqual(_orders.Length, orders.Count());
+            Assert.IsNotNull(orders, "orders should not be null");
+            Assert.AreEqual(_orders.Length, orders.Count(), "wrong number of orders retrieved");
         }
 
         [TestMethod]
@@ -87,9 +87,9 @@ namespace GroceryStore.Tests
             PopulateOrderData();
             var orders = _dataBroker.GetOrders(1);
 
-            Assert.IsNotNull(orders);
-            Assert.AreEqual(1, orders.Count());
-            Assert.AreEqual(1, orders.First().Id);
+            Assert.IsNotNull(orders, "orders should not be null");
+            Assert.AreEqual(1, orders.Count(), "wrong number of orders retrieved");
+            Assert.AreEqual(1, orders.First().Id, "wrong order retrieved");
         }
 
         [TestMethod]
@@ -99,9 +99,9 @@ namespace GroceryStore.Tests
             PopulateOrderData();
             var orders = _dataBroker.GetOrders(DateTime.Parse("2/1/2019"));
 
-            Assert.IsNotNull(orders);
-            Assert.AreEqual(1, orders.Count());
-            Assert.AreEqual(2, orders.First().Id);
+            Assert.IsNotNull(orders, "orders should not be null");
+            Assert.AreEqual(1, orders.Count(), "wrong number of orders retrieved");
+            Assert.AreEqual(2, orders.First().Id, "wrong order retrieved");
         }
 
         [TestMethod]
@@ -111,8 +111,8 @@ namespace GroceryStore.Tests
             PopulateProductData();
             var product = _dataBroker.GetProduct(1);
 
-            Assert.IsNotNull(product);
-            Assert.AreEqual(1, product.Id);
+            Assert.IsNotNull(product, "product should not be null");
+            Assert.AreEqual(1, product.Id, "wrong product retrieved");
         }
 
         [TestMethod]
@@ -132,8 +132,8 @@ namespace GroceryStore.Tests
             PopulateProductData();
             var products = _dataBroker.GetProducts();
 
-            Assert.IsNotNull(products);
-            Assert.AreEqual(_products.Length, products.Count());
+            Assert.IsNotNull(products, "products should not be null");
+            Assert.AreEqual(_products.Length, products.Count(), "wrong number of products retrieved");
         }
 
 
@@ -149,8 +149,8 @@ namespace GroceryStore.Tests
 
             var savedCustomer = _dataBroker.GetCustomer(newId.GetValueOrDefault());
 
-            Assert.IsNotNull(savedCustomer);
-            Assert.IsTrue(savedCustomer.Name == newCustomer.Name);
+            Assert.IsNotNull(savedCustomer, "customer not saved");
+            Assert.IsTrue(savedCustomer.Name == newCustomer.Name, "customer has the wrong name" );
         }
 
         [TestMethod]
@@ -178,9 +178,11 @@ namespace GroceryStore.Tests
             PopulateCustomerData();
             var newCustomer = new Customer {Id = 1, Name = "Candy Barr" };
             _dataBroker.UpdateCustomer(newCustomer);
+
+            Assert.AreEqual(1, newCustomer.Id, "Id should not be changed");
+
             var updatedCustomer = _dataBroker.GetCustomer(1);
 
-            Assert.IsNotNull(updatedCustomer);
             Assert.IsTrue(updatedCustomer.Name == newCustomer.Name);
         }
 
@@ -223,7 +225,6 @@ namespace GroceryStore.Tests
 
             var savedOrder = _dataBroker.GetOrder(newId.GetValueOrDefault());
 
-            Assert.IsNotNull(savedOrder);
             Assert.IsTrue(newOrder.CustomerId == savedOrder.CustomerId && newOrder.OrderDate == savedOrder.OrderDate && newOrder.Items.Count == savedOrder.Items.Count);
         }
 
@@ -255,12 +256,11 @@ namespace GroceryStore.Tests
             _dataBroker.UpdateOrder(newOrder);
             var newId = newOrder.Id;
 
-            Assert.IsNotNull(newId);
+            Assert.AreEqual(1, newId, "Id should not be changed");
 
             var updatedOrder = _dataBroker.GetOrder(newId.GetValueOrDefault());
 
-            Assert.IsNotNull(updatedOrder);
-            Assert.IsTrue(newOrder.CustomerId == updatedOrder.CustomerId && newOrder.OrderDate == updatedOrder.OrderDate && newOrder.Items.Count == updatedOrder.Items.Count);
+            Assert.IsTrue(newOrder.CustomerId == updatedOrder.CustomerId && newOrder.OrderDate == updatedOrder.OrderDate && newOrder.Items.Count == updatedOrder.Items.Count, "order was not updated");
         }
 
         [TestMethod]
@@ -299,12 +299,11 @@ namespace GroceryStore.Tests
             _dataBroker.SaveProduct(newProduct);
             var newId = newProduct.Id;
 
-            Assert.IsNotNull(newId);
+            Assert.IsNotNull(newId, "Id should not be null");
 
             var savedProduct = _dataBroker.GetProduct(newId.GetValueOrDefault());
 
-            Assert.IsNotNull(savedProduct);
-            Assert.IsTrue(savedProduct.Price == newProduct.Price && savedProduct.Description == newProduct.Description);
+            Assert.IsTrue(savedProduct.Price == newProduct.Price && savedProduct.Description == newProduct.Description, "product was not updated");
         }
 
         [TestMethod]
@@ -332,9 +331,11 @@ namespace GroceryStore.Tests
             PopulateProductData();
             var newProduct = new Product { Id = 1, Price = 3.99, Description = "updated test desc" };
             _dataBroker.UpdateProduct(newProduct);
-            var updatedProduct = _dataBroker.GetProduct(1);
 
-            Assert.IsNotNull(updatedProduct);
+            Assert.AreEqual(1, newProduct.Id, "Id should not be changed");
+
+            var updatedProduct = _dataBroker.GetProduct(1);
+            
             Assert.IsTrue(updatedProduct.Price == newProduct.Price && updatedProduct.Description == newProduct.Description);
         }
 

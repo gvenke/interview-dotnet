@@ -23,7 +23,7 @@ namespace GroceryStore.Tests
 
             Assert.IsNotNull(_entity.CurrentCheckPoint, "checkpoint should not be null");
             Assert.IsNotNull(_entity.CheckPointHistory, "checkpoint history should not be null");
-            Assert.AreEqual(1, _entity.CheckPointHistory.Count);
+            Assert.AreEqual(1, _entity.CheckPointHistory.Count, "incorrect checkpoint history size");
             Assert.AreNotEqual(_entity.CheckPointHistory.Last(), _entity.CurrentCheckPoint, "current checkpoint should not match the previous one");         
         }
 
@@ -36,7 +36,7 @@ namespace GroceryStore.Tests
            _entity.CreateCheckPoint();
 
 
-            Assert.AreEqual(2, history.Count);
+            Assert.AreEqual(2, history.Count, "incorrect checkpoint history size");
             Assert.IsTrue(history.First().Key < history.Last().Key, "checkpoint history logged out of order");
 
             bool invalid = false;
@@ -64,7 +64,7 @@ namespace GroceryStore.Tests
                 _entity.CreateCheckPoint();
             }
 
-            Assert.AreEqual(EntityBase.MaxCheckPoints, _entity.CheckPointHistory.Count);
+            Assert.AreEqual(EntityBase.MaxCheckPoints, _entity.CheckPointHistory.Count, "Checkpoint history should not exceed maxcount");
         }
 
         public void ClearCheckPoints()
@@ -73,8 +73,8 @@ namespace GroceryStore.Tests
             _entity.CreateCheckPoint();
             _entity.ClearCheckPoints();
 
-            Assert.IsNull(_entity.CurrentCheckPoint);
-            Assert.IsTrue(_entity.CheckPointHistory.Count == 0);
+            Assert.IsNull(_entity.CurrentCheckPoint, "checkpoint should be null");
+            Assert.IsTrue(_entity.CheckPointHistory.Count == 0, "checkpoint history should be empty");
         }
 
         [TestMethod]
@@ -83,15 +83,15 @@ namespace GroceryStore.Tests
             _entity = new T();           
             _entity.CreateCheckPoint();
 
-            Assert.IsFalse(_entity.IsDirty());
+            Assert.IsFalse(_entity.IsDirty(), "entity should not be dirty on creation");
 
             Edit();
 
-            Assert.IsTrue(_entity.IsDirty());
+            Assert.IsTrue(_entity.IsDirty(), "entity should be dirty after editing");
 
             _entity.CreateCheckPoint();
 
-            Assert.IsFalse(_entity.IsDirty());
+            Assert.IsFalse(_entity.IsDirty(), "entity should not be dirty after saving changes");
         }
 
         [TestMethod]
@@ -103,8 +103,8 @@ namespace GroceryStore.Tests
             _entity.CreateCheckPoint();
             foreach(var checkPoint in _entity.CheckPointHistory.Values)
             {
-                Assert.AreEqual(0, checkPoint.CheckPointHistory.Count);
-                Assert.IsNull(checkPoint.CurrentCheckPoint);
+                Assert.AreEqual(0, checkPoint.CheckPointHistory.Count, "checkpoint should not have a checkpoint history");
+                Assert.IsNull(checkPoint.CurrentCheckPoint,"checkpoint should not have a checkpoint");
             }
         }
 

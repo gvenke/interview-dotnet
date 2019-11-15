@@ -45,27 +45,27 @@ namespace GroceryStore.Tests
             _entity.Price = initialPrice;
             _entity.CreateCheckPoint();
 
-            Assert.IsTrue(_entity.Description == ((Product)_entity.CurrentCheckPoint).Description);
-            Assert.IsTrue(_entity.Price == ((Product)_entity.CurrentCheckPoint).Price);
+            Assert.IsTrue(_entity.Description == ((Product)_entity.CurrentCheckPoint).Description, "checkpoint description should match that of the parent product");
+            Assert.IsTrue(_entity.Price == ((Product)_entity.CurrentCheckPoint).Price, "checkpoint price should match that of the parent product");
 
             _entity.Description = changedDesc;
             _entity.Price = changedPrice;
 
-            Assert.IsTrue(_entity.Description != ((Product)_entity.CurrentCheckPoint).Description);
-            Assert.IsTrue(_entity.Price != ((Product)_entity.CurrentCheckPoint).Price);
+            Assert.IsTrue(_entity.Description != ((Product)_entity.CurrentCheckPoint).Description, "checkpoint description should not match that of the parent product after editing");
+            Assert.IsTrue(_entity.Price != ((Product)_entity.CurrentCheckPoint).Price, "checkpoint price should not match that of the parent product after editing");
 
             _entity.CreateCheckPoint();
 
-            Assert.IsTrue(_entity.Description == ((Product)_entity.CurrentCheckPoint).Description);
-            Assert.IsTrue(_entity.Price == ((Product)_entity.CurrentCheckPoint).Price);
+            Assert.IsTrue(_entity.Description == ((Product)_entity.CurrentCheckPoint).Description, "checkpoint description should match that of the parent product after creating checkpoint");
+            Assert.IsTrue(_entity.Price == ((Product)_entity.CurrentCheckPoint).Price, "checkpoint price should match that of the parent product after creating checkpoint");
 
             var checkPoint1 = (Product)history[history.First().Key];
             var checkPoint2 = (Product)history[history.Last().Key];
 
-            Assert.AreEqual(initialDesc, checkPoint1.Description);
-            Assert.AreEqual(changedDesc, checkPoint2.Description);
-            Assert.AreEqual(initialPrice, checkPoint1.Price);
-            Assert.AreEqual(changedPrice, checkPoint2.Price);
+            Assert.AreEqual(initialDesc, checkPoint1.Description, "first checkpoint has the wrong description");
+            Assert.AreEqual(changedDesc, checkPoint2.Description, "second checkpoint has the wrong description");
+            Assert.AreEqual(initialPrice, checkPoint1.Price, "first checkpoint has the wrong price");
+            Assert.AreEqual(changedPrice, checkPoint2.Price, "second checkpoint has the wrong price");
         }
 
         [TestMethod]
@@ -77,8 +77,8 @@ namespace GroceryStore.Tests
             _entity.Price = 12.99;
             _entity.Save(_dataBroker);
 
-            Assert.IsTrue(_entity.Id != null);
-            Assert.IsTrue(_dataBroker.ProductData.Count == 1);
+            Assert.IsTrue(_entity.Id != null, "Id should not be null after saving");
+            Assert.IsTrue(_dataBroker.ProductData.Count == 1, "product was not saved");
         }
 
         [TestMethod]
@@ -93,8 +93,8 @@ namespace GroceryStore.Tests
             _entity.Description = "changed desc";
             _entity.Save(_dataBroker);
 
-            Assert.IsTrue(_entity.Id == productId);
-            Assert.IsTrue(_dataBroker.ProductData.Count == 1);
+            Assert.IsTrue(_entity.Id == productId, "Id was changed");
+            Assert.IsTrue(_dataBroker.ProductData.Count == 1, "product was saved, not updated");
         }
     }
 }

@@ -54,9 +54,9 @@ namespace GroceryStore.Tests
             PopulateCustomerData();
             var customer = _groceryStore.GetCustomer(1);
 
-            Assert.IsNotNull(customer);
-            Assert.AreEqual(1, customer.Id);
-            Assert.IsNotNull(customer.CurrentCheckPoint);
+            Assert.IsNotNull(customer, "customer should not be null");
+            Assert.AreEqual(1, customer.Id, "wrong customer retrieved");
+            Assert.IsNotNull(customer.CurrentCheckPoint, "customer should have a checkpoint");
         }
 
         [TestMethod]
@@ -76,9 +76,9 @@ namespace GroceryStore.Tests
             PopulateProductData();
             var product = _groceryStore.GetProduct(1);
 
-            Assert.IsNotNull(product);
-            Assert.AreEqual(1, product.Id);
-            Assert.IsNotNull(product.CurrentCheckPoint);
+            Assert.IsNotNull(product, "product should not be null");
+            Assert.AreEqual(1, product.Id, "wrong product retrieved");
+            Assert.IsNotNull(product.CurrentCheckPoint, "product should have a checkpoint");
         }
 
         [TestMethod]
@@ -98,9 +98,9 @@ namespace GroceryStore.Tests
             PopulateOrderData();
             var order = _groceryStore.GetOrder(1);
 
-            Assert.IsNotNull(order);
-            Assert.AreEqual(1, order.Id);
-            Assert.IsNotNull(order.CurrentCheckPoint);
+            Assert.IsNotNull(order, "order should not be null");
+            Assert.AreEqual(1, order.Id, "wrong order retrieved");
+            Assert.IsNotNull(order.CurrentCheckPoint, "order should have a checkpoint");
         }
 
         [TestMethod]
@@ -158,8 +158,8 @@ namespace GroceryStore.Tests
             PopulateOrderData();
             var orderData = _groceryStore.GetOrders(2);
 
-            Assert.AreEqual(1, orderData.Count());
-            Assert.AreEqual(2, orderData.First().Id);
+            Assert.AreEqual(1, orderData.Count(), "wrong number of orders retrieved");
+            Assert.AreEqual(2, orderData.First().Id, "wrong order retrieved");
         }
 
         [TestMethod]
@@ -180,8 +180,8 @@ namespace GroceryStore.Tests
             PopulateOrderData();
             var orderData = _groceryStore.GetOrders(DateTime.Parse("2/1/2019"));
 
-            Assert.AreEqual(1, orderData.Count());
-            Assert.AreEqual(2, orderData.First().Id);
+            Assert.AreEqual(1, orderData.Count(), "wrong number of orders retrieved");
+            Assert.AreEqual(2, orderData.First().Id, "wrong order retrieved");
         }
 
         [TestMethod]
@@ -210,13 +210,13 @@ namespace GroceryStore.Tests
             customer.Name = "joe blow";
             _groceryStore.Save(customer);
 
-            Assert.AreEqual(1, customer.Id);
-            Assert.AreEqual(2, customer.CheckPointHistory.Count);
+            Assert.IsNotNull(customer.Id, "customer Id should not be null");
+            Assert.AreEqual(2, customer.CheckPointHistory.Count, "entity should have 2 checkpoints");
 
             customer = null;
             customer = _groceryStore.GetCustomer(1);
 
-            Assert.IsNotNull(customer);
+            Assert.IsNotNull(customer, "customer was not saved");
         }
 
         [TestMethod]
@@ -229,15 +229,15 @@ namespace GroceryStore.Tests
             customer.Name = newName;
             _groceryStore.Save(customer);
 
-            Assert.AreEqual(2, customer.CheckPointHistory.Count);
+            Assert.AreEqual(2, customer.CheckPointHistory.Count, "entity should have 2 checkpoints");
 
             var customers = _groceryStore.GetCustomers();
 
-            Assert.AreEqual(_customers.Length, customers.Count());
+            Assert.AreEqual(_customers.Length, customers.Count(), "entity was saved, not updated");
 
             var updatedCustomer = customers.First(o => o.Id == customer.Id);
 
-            Assert.AreEqual(newName, updatedCustomer.Name);        
+            Assert.AreEqual(newName, updatedCustomer.Name, "entity was not updated");        
         }
 
         private void SetupGroceryStore()

@@ -45,29 +45,29 @@ namespace GroceryStore.Tests
             var currentCheckPoint = (Order)_entity.CurrentCheckPoint;
             var items1 = _entity.Items.ToList();
 
-            Assert.IsTrue(_entity.CustomerId == currentCheckPoint.CustomerId);
-            CollectionAssert.AreEqual(_entity.Items.ToArray(), currentCheckPoint.Items.ToArray());
+            Assert.IsTrue(_entity.CustomerId == currentCheckPoint.CustomerId, "checkpoint id should match that of the parent order");
+            CollectionAssert.AreEqual(_entity.Items.ToArray(), currentCheckPoint.Items.ToArray(), "checkpoint order items should match those of the parent order");
 
             _entity.CustomerId = changedCustomerId;
             _entity.Items.Add(new OrderItem { ProductId = 2, Quantity = 2 });
             var items2 = _entity.Items.ToArray();
 
-            Assert.IsFalse(_entity.CustomerId == currentCheckPoint.CustomerId);
-            CollectionAssert.AreNotEqual(_entity.Items.ToArray(), currentCheckPoint.Items.ToArray());
+            Assert.IsFalse(_entity.CustomerId == currentCheckPoint.CustomerId, "checkpoint customer id should not match that of the parent order after being changed");
+            CollectionAssert.AreNotEqual(_entity.Items.ToArray(), currentCheckPoint.Items.ToArray(), "checkpoint order items should not match those of the parent order after being changed");
 
             _entity.CreateCheckPoint();
             currentCheckPoint = (Order)_entity.CurrentCheckPoint;
 
-            Assert.IsTrue(_entity.CustomerId == currentCheckPoint.CustomerId);
-            CollectionAssert.AreEqual(_entity.Items.ToArray(), currentCheckPoint.Items.ToArray());
+            Assert.IsTrue(_entity.CustomerId == currentCheckPoint.CustomerId, "checkpoint id should match that of the parent order after creating a new checkpoint");
+            CollectionAssert.AreEqual(_entity.Items.ToArray(), currentCheckPoint.Items.ToArray(), "checkpoint order items should match that of the parent order after creating a new checkpoint");
 
             var checkPoint1 = (Order)history[history.First().Key];
             var checkPoint2 = (Order)history[history.Last().Key];
 
-            Assert.AreEqual(initialCustomerId, checkPoint1.CustomerId);
-            Assert.AreEqual(changedCustomerId, checkPoint2.CustomerId);
-            CollectionAssert.AreEqual(items1, checkPoint1.Items.ToArray());
-            CollectionAssert.AreEqual(items2, checkPoint2.Items.ToArray());
+            Assert.AreEqual(initialCustomerId, checkPoint1.CustomerId, "first checkpoint has the wrong customer id");
+            Assert.AreEqual(changedCustomerId, checkPoint2.CustomerId, "second checkpoint has the wrong customer id");
+            CollectionAssert.AreEqual(items1, checkPoint1.Items.ToArray(), "first checkpoint has the wrong order items");
+            CollectionAssert.AreEqual(items2, checkPoint2.Items.ToArray(), "second checkpoint has the wrong order items");
         }
 
         [TestMethod]
@@ -77,8 +77,8 @@ namespace GroceryStore.Tests
             _entity = new Order { CustomerId = 1, Items = new List<OrderItem> { new OrderItem { ProductId = 1, Quantity = 1 } } };
             _entity.Save(_dataBroker);
 
-            Assert.IsTrue(_entity.Id != null);
-            Assert.IsTrue(_dataBroker.OrderData.Count == 1);
+            Assert.IsTrue(_entity.Id != null, "Id should not be null after saving");
+            Assert.IsTrue(_dataBroker.OrderData.Count == 1, "order was not saved");
         }
 
         [TestMethod]
@@ -93,8 +93,8 @@ namespace GroceryStore.Tests
             _entity.Items.Add(new OrderItem { ProductId = 2, Quantity = 2 });
             _entity.Save(_dataBroker);
 
-            Assert.IsTrue(_entity.Id == orderId);
-            Assert.IsTrue(_dataBroker.OrderData.Count == 1);
+            Assert.IsTrue(_entity.Id == orderId,"Id was changed");
+            Assert.IsTrue(_dataBroker.OrderData.Count == 1,"order was saved, not updated");
         }
     }
 }
