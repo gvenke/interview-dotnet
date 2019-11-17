@@ -16,8 +16,7 @@ namespace SandBox
         static void Main(string[] args)
         {            
             // get an order, make changes & save
-            var dataBroker = Factory.GetDataBroker();
-            var store = new GroceryStoreManager(dataBroker);
+            var store = Factory.CreateGroceryStoreManager();
             var entity = store.GetProduct(3);
             //entity.CustomerId = 3;
             //entity.OrderDate = DateTime.Now;

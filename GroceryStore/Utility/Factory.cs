@@ -31,9 +31,14 @@ namespace GroceryStore.Utility
         /// good for encapsulating logic that determines which implemention to generate. 
         /// </summary>
         /// <returns></returns>
-        public static IDataBroker GetDataBroker()
+        public static IDataBroker CreateDataBroker()
         {
             return new JsonDataBroker(ConfigurationManager.AppSettings[DbFilePathKey]);
+        }
+
+        public static GroceryStoreManager CreateGroceryStoreManager()
+        {
+            return new GroceryStoreManager(CreateDataBroker());
         }
     }
 }
