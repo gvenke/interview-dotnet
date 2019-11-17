@@ -22,17 +22,17 @@ namespace GroceryStore.Tests
 
         protected override void PopulateCustomerData()
         {
-            new EntityJsonFileManager(((JsonDataBroker)_dataBroker).FilePath).Insert("customers", _customers);
+            new EntityJsonFileManager(((JsonDataBroker)_dataBroker).FilePath).Insert(JsonDataBroker.CustomerSection, _customers);
         }
 
         protected override void PopulateOrderData()
         {
-            new EntityJsonFileManager(((JsonDataBroker)_dataBroker).FilePath).Insert("orders", _orders);
+            new EntityJsonFileManager(((JsonDataBroker)_dataBroker).FilePath).Insert(JsonDataBroker.OrderSection, _orders);
         }
 
         protected override void PopulateProductData()
         {
-            new EntityJsonFileManager(((JsonDataBroker)_dataBroker).FilePath).Insert("products", _products);
+            new EntityJsonFileManager(((JsonDataBroker)_dataBroker).FilePath).Insert(JsonDataBroker.ProductSection, _products);
         }
 
         [TestCleanup]
