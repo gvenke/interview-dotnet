@@ -48,6 +48,11 @@ namespace GroceryStore.Utility
             };
         }
 
+        /// <summary>
+        /// the primary purpose of this to set up temp data for unit & integration testing
+        /// </summary>
+        /// <param name="section"></param>
+        /// <param name="entities"></param>
         public void Insert(string section, IEnumerable<EntityBase> entities)
         {
 

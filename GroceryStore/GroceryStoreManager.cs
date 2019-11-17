@@ -64,8 +64,7 @@ namespace GroceryStore
 
         public Customer GetCustomer(int customerId)
         {
-            var customer = _dataBroker.GetCustomer(customerId);
-            if (customer != null)
+            var customer = _dataBroker.GetCustomer(customerId); 
             customer?.CreateCheckPoint();
             return customer;
         }

@@ -18,18 +18,18 @@ namespace SandBox
             // get an order, make changes & save
             var dataBroker = Factory.GetDataBroker();
             var store = new GroceryStoreManager(dataBroker);
-            var entity = store.GetOrder(1);
-            entity.CustomerId = 3;
-            entity.OrderDate = DateTime.Now;
-            entity.Items.Clear();
-            entity.Items.Add(new OrderItem { ProductId = 1, Quantity = 1 });
-            store.Save(entity);
+            var entity = store.GetProduct(3);
+            //entity.CustomerId = 3;
+            //entity.OrderDate = DateTime.Now;
+            //entity.Items.Clear();
+            //entity.Items.Add(new OrderItem { ProductId = 1, Quantity = 1 });
+            //store.Save(entity);
 
-            //make more changes and save again
-            entity.CustomerId = 4;
-            entity.OrderDate = DateTime.Now;
-            entity.Items.Add(new OrderItem { ProductId = 2, Quantity = 2 });
-            store.Save(entity);
+            ////make more changes and save again
+            //entity.CustomerId = 4;
+            //entity.OrderDate = DateTime.Now;
+            //entity.Items.Add(new OrderItem { ProductId = 2, Quantity = 2 });
+            //store.Save(entity);
 
             Console.ReadLine();
         }
