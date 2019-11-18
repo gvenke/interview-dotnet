@@ -47,7 +47,7 @@ namespace GroceryStore.DataBroker
 
         public IEnumerable<Order> GetOrders(DateTime date)
         {
-            return _fileManager.RetrieveMultiple<Order>(OrderSection, o => o.OrderDate == date);
+            return _fileManager.RetrieveMultiple<Order>(OrderSection, o => o.OrderDate.ToShortDateString() == date.ToShortDateString());
         }
 
         public IEnumerable<Order> GetOrders(int customerId)

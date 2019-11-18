@@ -48,7 +48,7 @@ namespace GroceryStore.Tests
 
         public IEnumerable<Order> GetOrders(DateTime date)
         {
-            return OrderData.Values.Where(o => o.OrderDate == date);
+            return OrderData.Values.Where(o => o.OrderDate.ToShortDateString() == date.ToShortDateString());
         }
 
         public IEnumerable<Order> GetOrders(int customerId)

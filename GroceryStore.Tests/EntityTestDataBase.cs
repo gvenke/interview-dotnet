@@ -44,9 +44,9 @@ namespace GroceryStore.Tests
 
             _orders = new[]
             {
-                new Order { Id = 1, OrderDate = DateTime.Parse("1/1/2019"), CustomerId = 1, Items = new List<OrderItem> { new OrderItem { ProductId = 1, Quantity = 1 } } },
-                new Order { Id = 2, OrderDate = DateTime.Parse("2/1/2019"), CustomerId = 2, Items = new List<OrderItem> { new OrderItem { ProductId = 2, Quantity = 1 } } },
-                new Order { Id = 3, OrderDate = DateTime.Parse("3/1/2019"), CustomerId = 3, Items = new List<OrderItem> { new OrderItem { ProductId = 3, Quantity = 1 } } }
+                new Order { Id = 1, OrderDate = DateTime.Parse("1/1/2019 05:10:32"), CustomerId = 1, Items = new List<OrderItem> { new OrderItem { ProductId = 1, Quantity = 1 } } },
+                new Order { Id = 2, OrderDate = DateTime.Parse("2/1/2019 05:10:32"), CustomerId = 2, Items = new List<OrderItem> { new OrderItem { ProductId = 2, Quantity = 1 } } },
+                new Order { Id = 3, OrderDate = DateTime.Parse("3/1/2019 05:10:32"), CustomerId = 3, Items = new List<OrderItem> { new OrderItem { ProductId = 3, Quantity = 1 } } }
             };
         }
 
